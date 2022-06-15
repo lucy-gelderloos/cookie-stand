@@ -1,10 +1,5 @@
 'use strict';
 
-// const modelPrototype = {
-//   openHour:6,
-//   closeHour:20,
-// };
-
 function Model(location,minCust,maxCust,avgSale){
   this.storeLocation = location;
   this.minCust = minCust;
@@ -13,8 +8,7 @@ function Model(location,minCust,maxCust,avgSale){
   this.salesModel = function() {
     let hourlySales = [];
     //model hourly sales
-    for (let i = this.openHour; i < this.closeHour; i++){
-      //generate random sales
+    for (let i = 6; i < 20; i++){
       let randCust = ((Math.floor(Math.random() * (this.maxCust - this.minCust))) + this.minCust + 1);
       hourlySales.push(Math.round(randCust * this.avgSale));
     }
@@ -51,10 +45,8 @@ function Model(location,minCust,maxCust,avgSale){
   };
 }
 
-// Model.prototype.openHour = 6;
-// Model.prototype.closeHour = 20;
-
 function openHours() {
+  let hoursHeader = [];
   let hours = [];
   for (let i = 6; i < 20; i++){
     if(i < 12){
@@ -66,18 +58,16 @@ function openHours() {
     else{
       hours = (`${(i-12)}:00 pm`);
     }
-    hours.push(hours);
+    hoursHeader.push(hours);
   }
-  console.log(hours);
+  console.log(hoursHeader);
 }
 
 // Model.prototype = modelPrototype;
 // Model.prototype.constructor = Model;
 
-// const portland = new Model('Portland',18,45,4);
-// console.log (portland);
 const seattle = new Model('Seattle',23,65,6.3);
 const tokyo = new Model('Tokyo',3,24,1.2);
-const dubai = new Model('Dubai');
-const paris = new Model('Paris');
-const lima = new Model('Lima');
+const dubai = new Model('Dubai',11,38,3,7);
+const paris = new Model('Paris',20,38,2.3);
+const lima = new Model('Lima',2,16,4.6);
