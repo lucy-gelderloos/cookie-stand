@@ -37,6 +37,7 @@ function Model(location,minCust,maxCust,avgSale){
   this.avgSale = avgSale;
   this.hourlySales = this.salesModel();
   this.totalDailySales = this.totalDailySales();
+  this.hourlyStaff = this.hourlyStaffing();
 }
 
 Model.prototype.salesModel = function(){
@@ -83,7 +84,7 @@ Model.prototype.hourlyStaffing = function(){
   const minStaff = 2;
   const cookiesPerStaff = 20;
   for (let i = 0; i < this.hourlySales.length; i++){
-    let staffNeeded = this.hourlySales[i]/cookiesPerStaff;
+    let staffNeeded = Math.ceil(this.hourlySales[i]/cookiesPerStaff);
     if(staffNeeded < minStaff){
       hourlyStaff.push(minStaff);
     }
@@ -95,32 +96,31 @@ Model.prototype.hourlyStaffing = function(){
 };
 
 function staffHours() {
-  let hoursHeader = ['Location'];
-  let hours = [];
+  let staffHoursHeader = ['Location'];
+  let staffHours = [];
   for (let i = 6; i < 20; i++){
     if(i < 12){
-      hours = (`${i}:00 am`);
+      staffHours = (`${i}:00 am`);
     }
     else if(i === 12){
-      hours = (`${i}:00 pm`);
+      staffHours = (`${i}:00 pm`);
     }
     else{
-      hours = (`${(i-12)}:00 pm`);
+      staffHours = (`${(i-12)}:00 pm`);
     }
-    hoursHeader.push(hours);
+    staffHoursHeader.push(staffHours);
   }
-  hoursHeader.push('Daily Total Sales');
-  console.log(hoursHeader);
 
-  const modelTable = document.getElementById('staffTable');
-  const headRow = document.createElement('tr');
-  headRow.id = ('headerRow');
-  modelTable.appendChild(headRow);
+  console.log(staffHoursHeader);
 
-  for(let i = 0; i < hoursHeader.length; i++){
-    const colHead = document.createElement('th');
-    colHead.appendChild(document.createTextNode(hoursHeader[i]));
-    headRow.appendChild(colHead);
+  const staffTable = document.getElementById('staffTable');
+  const staffHeadRow = document.createElement('tr');
+  staffTable.appendChild(staffHeadRow);
+
+  for(let i = 0; i < staffHoursHeader.length; i++){
+    const staffColHead = document.createElement('th');
+    staffColHead.appendChild(document.createTextNode(staffHoursHeader[i]));
+    staffHeadRow.appendChild(staffColHead);
   }
 }
 
