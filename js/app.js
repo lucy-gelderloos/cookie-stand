@@ -22,8 +22,8 @@ function openHours() {
   const headRow = document.createElement('tr');
   headRow.id = ('headerRow');
   modelTable.appendChild(headRow);
-  
-  for(let i = 0; i < 14; i++){
+
+  for(let i = 0; i < hoursHeader.length; i++){
     const colHead = document.createElement('th');
     colHead.appendChild(document.createTextNode(hoursHeader[i]));
     headRow.appendChild(colHead);
@@ -58,10 +58,10 @@ Model.prototype.totalDailySales = function(){
 };
 
 Model.prototype.render = function(){
-  const headerRow = document.getElementById('headerRow');
+  const modelTable = document.getElementById('modelTable');
 
   const row = document.createElement('tr');
-  headerRow.append(row);
+  modelTable.appendChild(row);
 
   const rowHead = document.createElement('td');
   rowHead.appendChild(document.createTextNode(this.storeLocation));
