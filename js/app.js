@@ -1,5 +1,35 @@
 'use strict';
 
+function openHours() {
+  let hoursHeader = ['Location'];
+  let hours = [];
+  for (let i = 6; i < 20; i++){
+    if(i < 12){
+      hours = (`${i}:00 am`);
+    }
+    else if(i === 12){
+      hours = (`${i}:00 pm`);
+    }
+    else{
+      hours = (`${(i-12)}:00 pm`);
+    }
+    hoursHeader.push(hours);
+  }
+  hoursHeader.push('Daily Total Sales');
+  console.log(hoursHeader);
+
+  const modelTable = document.getElementById('modelTable');
+  const headRow = document.createElement('tr');
+  headRow.id = ('headerRow');
+  modelTable.appendChild(headRow);
+  
+  for(let i = 0; i < 14; i++){
+    const colHead = document.createElement('th');
+    colHead.appendChild(document.createTextNode(hoursHeader[i]));
+    headRow.appendChild(colHead);
+  }
+}
+
 function Model(location,minCust,maxCust,avgSale){
   this.storeLocation = location;
   this.minCust = minCust;
@@ -27,42 +57,11 @@ Model.prototype.totalDailySales = function(){
   return(totalSales);
 };
 
-function openHours() {
-  let hoursHeader = ['Location'];
-  let hours = [];
-  for (let i = 6; i < 20; i++){
-    if(i < 12){
-      hours = (`${i}:00 am`);
-    }
-    else if(i === 12){
-      hours = (`${i}:00 pm`);
-    }
-    else{
-      hours = (`${(i-12)}:00 pm`);
-    }
-    hoursHeader.push(hours);
-  }
-  hoursHeader.push('Daily Total Sales');
-  console.log(hoursHeader);
-
-  const modelTable = document.getElementById('modelTable');
-  const headRow = document.createElement('tr');
-  headRow.id = ('headerRow');
-  modelTable.appendChild(headRow);
-
-  for(let i = 0; i < 14; i++){
-    const colHead = document.createElement('th');
-    colHead.appendChild(document.createTextNode(hoursHeader[i]));
-    headRow.appendChild(colHead);
-  }
-}
-
-
 Model.prototype.render = function(){
-  const modelTable = document.getElementById('modelTable');
+  const headerRow = document.getElementById('headerRow');
 
   const row = document.createElement('tr');
-  modelTable.appendChild(row);
+  headerRow.append(row);
 
   const rowHead = document.createElement('td');
   rowHead.appendChild(document.createTextNode(this.storeLocation));
@@ -77,6 +76,31 @@ Model.prototype.render = function(){
   totalCell.appendChild(document.createTextNode(this.totalDailySales));
   row.appendChild(totalCell);
 };
+
+function hourlyTotals(){
+  const headerRow = document.getElementById('headerRow');
+
+  const footerRow = document.createElement('tr');
+  headerRow.append(footerRow);
+
+  let hourlyTotalsArray = [''];
+  for(let i = 0; i < 14; i++){
+    let hourTotal = (seattle.hourlySales[i] + tokyo.hourlySales[i] + dubai.hourlySales[i] + paris.hourlySales[i] + lima.hourlySales[i]);
+    hourlyTotalsArray.push(hourTotal);
+  }
+
+  let grandTotal = 0;
+  for (let i = 0; i < (hourlyTotalsArray.length - 1); i++){
+    grandTotal += hourlyTotalsArray[i];
+  }
+  hourlyTotalsArray.push(grandTotal);
+
+  for(let i = 0; hourlyTotalsArray.length; i++){
+    const hourlyTotalCell = document.createElement('th');
+    hourlyTotalCell.appendChild(document.createTextNode(hourlyTotalsArray[i]));
+    footerRow.appendChild(hourlyTotalCell);
+  }
+}
 
 const seattle = new Model('Seattle',23,65,6.3);
 const tokyo = new Model('Tokyo',3,24,1.2);
