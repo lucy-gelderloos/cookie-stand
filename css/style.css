@@ -1,0 +1,51 @@
+/*swatches
+dark brown: #241C1C
+dark gray: #293030
+medium gray: #586666
+green-brown: #5E5037
+dark orange: #A04E2E
+salmon: #AF5441
+beige: #DBB671
+cream: #F7EEE0
+*/
+
+body {
+    color: #293030;
+    background-color: #F7EEE0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.accent-gray {
+    color: #F7EEE0;
+    background-color: #293030;
+}
+
+.accent-brown {
+    color: #F7EEE0;
+    background-color: #241C1C;
+}
+
+a:link {
+    color: #A04E2E;
+}
+
+a:hover {
+    color: #AF5441;
+}
+
+.model-div {
+    margin: 1em;
+}
+
+table, th, td {
+    border: 1px solid #241C1C;
+    border-collapse:collapse;
+}
+
+td {
+    text-align:right;
+}
+
+.left {
+    text-align:left;
+}
