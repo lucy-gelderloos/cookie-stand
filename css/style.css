@@ -35,11 +35,9 @@ nav {
 
 nav ul {
     display:flex;
-    /* justify-content: space-between; */
 }
 
 nav ul li {
-    /* width:100px; */
     padding: 10px;
 }
 
@@ -63,8 +61,8 @@ nav a:hover {
 header div {
     width: 960px;
     margin:auto;
-    /* display:flex;
-    align-items: center; */
+    display:block;
+    background-color:#AF5441;
 }
 
 header img {
@@ -84,6 +82,11 @@ header p {
     font-size: 1.2em;
     margin:15px;
 }
+
+.sticky {
+    position: fixed;
+    top: 0;
+  }
 
 main {
     max-width: 960px;
