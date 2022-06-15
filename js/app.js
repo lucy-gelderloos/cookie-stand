@@ -64,6 +64,7 @@ Model.prototype.render = function(){
   modelTable.appendChild(row);
 
   const rowHead = document.createElement('td');
+  rowHead.className = ('left');
   rowHead.appendChild(document.createTextNode(this.storeLocation));
   row.appendChild(rowHead);
 
@@ -76,6 +77,73 @@ Model.prototype.render = function(){
   totalCell.appendChild(document.createTextNode(this.totalDailySales));
   row.appendChild(totalCell);
 };
+
+Model.prototype.hourlyStaffing = function(){
+  let hourlyStaff = [];
+  const minStaff = 2;
+  const cookiesPerStaff = 20;
+  for (let i = 0; i < this.hourlySales.length; i++){
+    let staffNeeded = this.hourlySales[i]/cookiesPerStaff;
+    if(staffNeeded < minStaff){
+      hourlyStaff.push(minStaff);
+    }
+    else{
+      hourlyStaff.push(staffNeeded);
+    }
+  }
+  return(hourlyStaff);
+};
+
+function staffHours() {
+  let hoursHeader = ['Location'];
+  let hours = [];
+  for (let i = 6; i < 20; i++){
+    if(i < 12){
+      hours = (`${i}:00 am`);
+    }
+    else if(i === 12){
+      hours = (`${i}:00 pm`);
+    }
+    else{
+      hours = (`${(i-12)}:00 pm`);
+    }
+    hoursHeader.push(hours);
+  }
+  hoursHeader.push('Daily Total Sales');
+  console.log(hoursHeader);
+
+  const modelTable = document.getElementById('staffTable');
+  const headRow = document.createElement('tr');
+  headRow.id = ('headerRow');
+  modelTable.appendChild(headRow);
+
+  for(let i = 0; i < hoursHeader.length; i++){
+    const colHead = document.createElement('th');
+    colHead.appendChild(document.createTextNode(hoursHeader[i]));
+    headRow.appendChild(colHead);
+  }
+}
+
+Model.prototype.staffRender = function(){
+  const modelTable = document.getElementById('staffTable');
+
+  const row = document.createElement('tr');
+  modelTable.appendChild(row);
+
+  const rowHead = document.createElement('td');
+  rowHead.className = ('left');
+  rowHead.appendChild(document.createTextNode(this.storeLocation));
+  row.appendChild(rowHead);
+
+  for (let i = 0; i < 14; i++){
+    const cell = document.createElement('td');
+    cell.appendChild(document.createTextNode(this.hourlyStaff[i]));
+    row.appendChild(cell);
+  }
+
+};
+
+
 
 const seattle = new Model('Seattle',23,65,6.3);
 const tokyo = new Model('Tokyo',3,24,1.2);
@@ -107,3 +175,26 @@ function hourlyTotals(){
     footerRow.appendChild(hourlyTotalCell);
   }
 }
+
+function staffTotals(){
+  let staffTotalsArray = [];
+  staffTotalsArray.push('');
+  for(let i = 0; i < 14; i++){
+    let staffTotal = (seattle.hourlyStaff[i] + tokyo.hourlyStaff[i] + dubai.hourlyStaff[i] + paris.hourlyStaff[i] + lima.hourlyStaff[i]);
+    staffTotalsArray.push(staffTotal);
+  }
+
+  console.log (staffTotalsArray);
+
+  const staffTable = document.getElementById('staffTable');
+  const StaffFooterRow = document.createElement('tr');
+  staffTable.appendChild(StaffFooterRow);
+
+  for(let i = 0; i < staffTotalsArray.length; i++){
+    const staffTotalCell = document.createElement('th');
+    staffTotalCell.appendChild(document.createTextNode(staffTotalsArray[i]));
+    StaffFooterRow.appendChild(staffTotalCell);
+  }
+}
+
+
