@@ -7,6 +7,7 @@ function Model(location,minCust,maxCust,avgSale){
   this.avgSale = avgSale;
   this.salesModel = function() {
     let hourlySales = [];
+
     //model hourly sales
     for (let i = 6; i < 20; i++){
       let randCust = ((Math.floor(Math.random() * (this.maxCust - this.minCust))) + this.minCust + 1);
@@ -33,12 +34,7 @@ function Model(location,minCust,maxCust,avgSale){
     const locationModelList = document.createElement('ul');
     locationModelList.id = `${this.storeLocation}-list`;
     locationModelList.className = ('model-list');
-    // salesByHour.forEach((item)=>{
-    //   let li = document.createElement('li');
-    //   li.innerText = item;
-    //   locationModelList.appendChild(li);
-    // }
-    // );
+
     modelDiv.appendChild(locationModelList);
     const modelSection = document.getElementById('Insert').parentNode;
     document.body.insertBefore(modelDiv, modelSection);
@@ -62,6 +58,50 @@ function openHours() {
   }
   console.log(hoursHeader);
 }
+
+Model.prototype.renderSales = function(){
+  const modelTable = document.getElementById('modelTable');
+
+  const row = document.createElement('tr');
+  modelTable.appendChild(row);
+
+  for (let i = 0; i < 14; i++){
+    const cell = document.createElement('td');
+    cell.appendChild(document.createTextNode(this.hourlySales[i]));
+    row.appendChild(cell);
+  }
+};
+
+//   const headerCells = function(hoursHeader){
+//     hoursHeader.forEach(element => {
+//       const cell = document.createElement('th');
+//       cell.appendChild(document.createTextNode(hoursHeader));
+//     });
+//   };
+// };
+
+// function createTable(tableData) {
+//     var table = document.createElement('table');
+//     var tableBody = document.createElement('tbody');
+  
+//     tableData.forEach(function(rowData) {
+//       var row = document.createElement('tr');
+  
+//       rowData.forEach(function(cellData) {
+//         var cell = document.createElement('td');
+//         cell.appendChild(document.createTextNode(cellData));
+//         row.appendChild(cell);
+//       });
+  
+//       tableBody.appendChild(row);
+//     });
+  
+//     table.appendChild(tableBody);
+//     document.body.appendChild(table);
+//   }
+
+
+
 
 // Model.prototype = modelPrototype;
 // Model.prototype.constructor = Model;
