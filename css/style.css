@@ -30,7 +30,8 @@ header {
 nav {
     height:2.5em;
     align-items: center;
-    width:100%;
+    width:960px;
+    margin:auto;
 }
 
 nav ul {
@@ -59,8 +60,9 @@ nav a:hover {
 }
 
 header div {
-    width: 960px;
+    width: 100%;
     margin:auto;
+    padding:20px 0 0 0;
     display:block;
     background-color:#AF5441;
 }
