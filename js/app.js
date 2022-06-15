@@ -77,33 +77,33 @@ Model.prototype.render = function(){
   row.appendChild(totalCell);
 };
 
-function hourlyTotals(){
-  const headerRow = document.getElementById('headerRow');
-
-  const footerRow = document.createElement('tr');
-  headerRow.append(footerRow);
-
-  let hourlyTotalsArray = [''];
-  for(let i = 0; i < 14; i++){
-    let hourTotal = (seattle.hourlySales[i] + tokyo.hourlySales[i] + dubai.hourlySales[i] + paris.hourlySales[i] + lima.hourlySales[i]);
-    hourlyTotalsArray.push(hourTotal);
-  }
-
-  let grandTotal = 0;
-  for (let i = 0; i < (hourlyTotalsArray.length - 1); i++){
-    grandTotal += hourlyTotalsArray[i];
-  }
-  hourlyTotalsArray.push(grandTotal);
-
-  for(let i = 0; hourlyTotalsArray.length; i++){
-    const hourlyTotalCell = document.createElement('th');
-    hourlyTotalCell.appendChild(document.createTextNode(hourlyTotalsArray[i]));
-    footerRow.appendChild(hourlyTotalCell);
-  }
-}
-
 const seattle = new Model('Seattle',23,65,6.3);
 const tokyo = new Model('Tokyo',3,24,1.2);
 const dubai = new Model('Dubai',11,38,3,7);
 const paris = new Model('Paris',20,38,2.3);
 const lima = new Model('Lima',2,16,4.6);
+
+function hourlyTotals(){
+
+  let hourlyTotalsArray = [];
+  hourlyTotalsArray.push('');
+  for(let i = 0; i < 14; i++){
+    let hourTotal = (seattle.hourlySales[i] + tokyo.hourlySales[i] + dubai.hourlySales[i] + paris.hourlySales[i] + lima.hourlySales[i]);
+    hourlyTotalsArray.push(hourTotal);
+  }
+
+  let grandTotal = seattle.totalDailySales + tokyo.totalDailySales + dubai.totalDailySales + paris.totalDailySales + lima.totalDailySales;
+  hourlyTotalsArray.push(grandTotal);
+
+  console.log (hourlyTotalsArray);
+
+  const modelTable = document.getElementById('modelTable');
+  const footerRow = document.createElement('tr');
+  modelTable.appendChild(footerRow);
+
+  for(let i = 0; i < hourlyTotalsArray.length; i++){
+    const hourlyTotalCell = document.createElement('th');
+    hourlyTotalCell.appendChild(document.createTextNode(hourlyTotalsArray[i]));
+    footerRow.appendChild(hourlyTotalCell);
+  }
+}
