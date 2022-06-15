@@ -5,44 +5,30 @@ function Model(location,minCust,maxCust,avgSale){
   this.minCust = minCust;
   this.maxCust = maxCust;
   this.avgSale = avgSale;
-  this.salesModel = function() {
-    let hourlySales = [];
-
-    //model hourly sales
-    for (let i = 6; i < 20; i++){
-      let randCust = ((Math.floor(Math.random() * (this.maxCust - this.minCust))) + this.minCust + 1);
-      hourlySales.push(Math.round(randCust * this.avgSale));
-    }
-    console.log(hourlySales);
-
-    //calculate total sales
-    let totalSales = 0;
-    for (let j = 0; j < hourlySales.length; j++){
-      totalSales += hourlySales[j];
-    }
-    console.log(`Total Sales: ${totalSales}`);
-
-    //generate heading
-    const modelDiv = document.createElement('div');
-    modelDiv.id = this.storeLocation;
-    modelDiv.className = ('model-div');
-    const locationHeading = document.createElement('h2');
-    const locationHeadingContent = document.createTextNode(this.storeLocation);
-    locationHeading.appendChild(locationHeadingContent);
-    modelDiv.appendChild(locationHeading);
-
-    const locationModelList = document.createElement('ul');
-    locationModelList.id = `${this.storeLocation}-list`;
-    locationModelList.className = ('model-list');
-
-    modelDiv.appendChild(locationModelList);
-    const modelSection = document.getElementById('Insert').parentNode;
-    document.body.insertBefore(modelDiv, modelSection);
-  };
+  this.hourlySales = this.salesModel();
+  this.totalDailySales = this.totalDailySales();
 }
 
+Model.prototype.salesModel = function(){
+  let hourlySales = [];
+  //model hourly sales
+  for (let i = 6; i < 20; i++){
+    let randCust = ((Math.floor(Math.random() * (this.maxCust - this.minCust))) + this.minCust + 1);
+    hourlySales.push(Math.round(randCust * this.avgSale));
+  }
+  return(hourlySales);
+};
+
+Model.prototype.totalDailySales = function(){
+  let totalSales = 0;
+  for (let i = 0; i < this.hourlySales.length; i++){
+    totalSales += this.hourlySales[i];
+  }
+  return(totalSales);
+};
+
 function openHours() {
-  let hoursHeader = [];
+  let hoursHeader = ['Location'];
   let hours = [];
   for (let i = 6; i < 20; i++){
     if(i < 12){
@@ -56,55 +42,41 @@ function openHours() {
     }
     hoursHeader.push(hours);
   }
+  hoursHeader.push('Daily Total Sales');
   console.log(hoursHeader);
+
+  const modelTable = document.getElementById('modelTable');
+  const headRow = document.createElement('tr');
+  headRow.id = ('headerRow');
+  modelTable.appendChild(headRow);
+
+  for(let i = 0; i < 14; i++){
+    const colHead = document.createElement('th');
+    colHead.appendChild(document.createTextNode(hoursHeader[i]));
+    headRow.appendChild(colHead);
+  }
 }
 
-Model.prototype.renderSales = function(){
+
+Model.prototype.render = function(){
   const modelTable = document.getElementById('modelTable');
 
   const row = document.createElement('tr');
   modelTable.appendChild(row);
+
+  const rowHead = document.createElement('td');
+  rowHead.appendChild(document.createTextNode(this.storeLocation));
+  row.appendChild(rowHead);
 
   for (let i = 0; i < 14; i++){
     const cell = document.createElement('td');
     cell.appendChild(document.createTextNode(this.hourlySales[i]));
     row.appendChild(cell);
   }
+  const totalCell = document.createElement('td');
+  totalCell.appendChild(document.createTextNode(this.totalDailySales));
+  row.appendChild(totalCell);
 };
-
-//   const headerCells = function(hoursHeader){
-//     hoursHeader.forEach(element => {
-//       const cell = document.createElement('th');
-//       cell.appendChild(document.createTextNode(hoursHeader));
-//     });
-//   };
-// };
-
-// function createTable(tableData) {
-//     var table = document.createElement('table');
-//     var tableBody = document.createElement('tbody');
-  
-//     tableData.forEach(function(rowData) {
-//       var row = document.createElement('tr');
-  
-//       rowData.forEach(function(cellData) {
-//         var cell = document.createElement('td');
-//         cell.appendChild(document.createTextNode(cellData));
-//         row.appendChild(cell);
-//       });
-  
-//       tableBody.appendChild(row);
-//     });
-  
-//     table.appendChild(tableBody);
-//     document.body.appendChild(table);
-//   }
-
-
-
-
-// Model.prototype = modelPrototype;
-// Model.prototype.constructor = Model;
 
 const seattle = new Model('Seattle',23,65,6.3);
 const tokyo = new Model('Tokyo',3,24,1.2);
