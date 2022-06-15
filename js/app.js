@@ -42,10 +42,11 @@ function Model(location,minCust,maxCust,avgSale){
 
 Model.prototype.salesModel = function(){
   let hourlySales = [];
+  let scaleSales = [0.5, 0.75, 1.0, 0.6, 0.8, 1.0, 0.7, 0.4, 0.6, 0.9, 0.7, 0.5, 0.3, 0.4, 0.6];
   //model hourly sales
   for (let i = 6; i < 20; i++){
     let randCust = ((Math.floor(Math.random() * (this.maxCust - this.minCust))) + this.minCust + 1);
-    hourlySales.push(Math.round(randCust * this.avgSale));
+    hourlySales.push(Math.round(randCust * (this.avgSale * scaleSales[i-6])));
   }
   return(hourlySales);
 };
