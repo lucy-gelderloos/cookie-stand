@@ -144,8 +144,6 @@ Model.prototype.staffRender = function(){
 
 };
 
-
-
 const seattle = new Model('Seattle',23,65,6.3);
 const tokyo = new Model('Tokyo',3,24,1.2);
 const dubai = new Model('Dubai',11,38,3,7);
@@ -198,4 +196,20 @@ function staffTotals(){
   }
 }
 
+// When the user scrolls the page, execute myFunction
+window.onscroll = function() {stickyNav();};
 
+// Get the header
+const header = document.getElementById('sticky-nav');
+
+// Get the offset position of the navbar
+const sticky = header.offsetTop;
+
+// Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
+function stickyNav() {
+  if (window.pageYOffset > sticky) {
+    header.classList.add('sticky');
+  } else {
+    header.classList.remove('sticky');
+  }
+}
