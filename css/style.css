@@ -79,6 +79,12 @@ h1 {
     text-align: center;
 }
 
+h2 {
+    font: size 1.5em;
+    font-weight:bold;
+    line-height: 2em;
+}
+
 header p {
     text-align:center;
     font-size: 1.2em;
@@ -90,16 +96,38 @@ header p {
     top: 0;
   }
 
+.sticky-padding {
+    padding-top:165px;
+}
+
 main {
     max-width: 960px;
     margin:30px auto;
 }
 
-.accent-gray {
+.gray-border {
+    border:5px solid #293030; 
+}
+
+p {
+    line-height:1.5em;
+}
+
+#about img {
+    float:right;
+    margin:3px;
+}
+
+#spotlight {
+    display:flex;
+}
+
+#shop {
     color: #F7EEE0;
     background-color: #293030;
 }
 
+/*
 .accent-brown {
     color: #F7EEE0;
     background-color: #241C1C;
@@ -111,7 +139,7 @@ a:link {
 
 a:hover {
     color: #AF5441;
-}
+} */
 
 .model-div {
     margin: 1em;
