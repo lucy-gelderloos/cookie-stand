@@ -1,5 +1,6 @@
 'use strict';
 
+
 function openHours() {
   let hoursHeader = ['Location'];
   let hours = [];
@@ -20,7 +21,7 @@ function openHours() {
 
   const modelTable = document.getElementById('modelTable');
   const headRow = document.createElement('tr');
-  headRow.id = ('headerRow');
+  // headRow.id = ('headerRow');
   modelTable.appendChild(headRow);
 
   for(let i = 0; i < hoursHeader.length; i++){
@@ -28,16 +29,6 @@ function openHours() {
     colHead.appendChild(document.createTextNode(hoursHeader[i]));
     headRow.appendChild(colHead);
   }
-}
-
-function Model(location,minCust,maxCust,avgSale){
-  this.storeLocation = location;
-  this.minCust = minCust;
-  this.maxCust = maxCust;
-  this.avgSale = avgSale;
-  this.hourlySales = this.salesModel();
-  this.totalDailySales = this.totalDailySales();
-  this.hourlyStaff = this.hourlyStaffing();
 }
 
 Model.prototype.salesModel = function(){
@@ -62,22 +53,39 @@ Model.prototype.totalDailySales = function(){
 Model.prototype.render = function(){
   const modelTable = document.getElementById('modelTable');
 
-  const row = document.createElement('tr');
-  modelTable.appendChild(row);
+  const salesRow = document.createElement('tr');
+  modelTable.appendChild(salesRow);
 
-  const rowHead = document.createElement('td');
-  rowHead.className = ('left');
-  rowHead.appendChild(document.createTextNode(this.storeLocation));
-  row.appendChild(rowHead);
+  const salesRowHead = document.createElement('td');
+  salesRowHead.className = ('left');
+  salesRowHead.appendChild(document.createTextNode(this.storeLocation));
+  salesRow.appendChild(salesRowHead);
 
   for (let i = 0; i < 14; i++){
     const cell = document.createElement('td');
     cell.appendChild(document.createTextNode(this.hourlySales[i]));
-    row.appendChild(cell);
+    salesRow.appendChild(cell);
   }
   const totalCell = document.createElement('td');
   totalCell.appendChild(document.createTextNode(this.totalDailySales));
-  row.appendChild(totalCell);
+  salesRow.appendChild(totalCell);
+
+  const staffTable = document.getElementById('staffTable');
+
+  const staffRow = document.createElement('tr');
+  staffTable.appendChild(staffRow);
+
+  const staffRowHead = document.createElement('td');
+  staffRowHead.className = ('left');
+  staffRowHead.appendChild(document.createTextNode(this.storeLocation));
+  staffRow.appendChild(staffRowHead);
+
+  for (let i = 0; i < 14; i++){
+    const cell = document.createElement('td');
+    cell.appendChild(document.createTextNode(this.hourlyStaff[i]));
+    staffRow.appendChild(cell);
+  }
+
 };
 
 Model.prototype.hourlyStaffing = function(){
@@ -125,31 +133,6 @@ function staffHours() {
   }
 }
 
-Model.prototype.staffRender = function(){
-  const modelTable = document.getElementById('staffTable');
-
-  const row = document.createElement('tr');
-  modelTable.appendChild(row);
-
-  const rowHead = document.createElement('td');
-  rowHead.className = ('left');
-  rowHead.appendChild(document.createTextNode(this.storeLocation));
-  row.appendChild(rowHead);
-
-  for (let i = 0; i < 14; i++){
-    const cell = document.createElement('td');
-    cell.appendChild(document.createTextNode(this.hourlyStaff[i]));
-    row.appendChild(cell);
-  }
-
-};
-
-const seattle = new Model('Seattle',23,65,6.3);
-const tokyo = new Model('Tokyo',3,24,1.2);
-const dubai = new Model('Dubai',11,38,3,7);
-const paris = new Model('Paris',20,38,2.3);
-const lima = new Model('Lima',2,16,4.6);
-
 function hourlyTotals(){
 
   let hourlyTotalsArray = [];
@@ -162,7 +145,7 @@ function hourlyTotals(){
   let grandTotal = seattle.totalDailySales + tokyo.totalDailySales + dubai.totalDailySales + paris.totalDailySales + lima.totalDailySales;
   hourlyTotalsArray.push(grandTotal);
 
-  console.log (hourlyTotalsArray);
+  // console.log (hourlyTotalsArray);
 
   const modelTable = document.getElementById('modelTable');
   const footerRow = document.createElement('tr');
@@ -183,7 +166,7 @@ function staffTotals(){
     staffTotalsArray.push(staffTotal);
   }
 
-  console.log (staffTotalsArray);
+  // console.log (staffTotalsArray);
 
   const staffTable = document.getElementById('staffTable');
   const StaffFooterRow = document.createElement('tr');
@@ -196,7 +179,36 @@ function staffTotals(){
   }
 }
 
-//https://www.w3schools.com/howto/howto_js_sticky_header.asp
+const seattle = new Model('Seattle',23,65,6.3);
+const tokyo = new Model('Tokyo',3,24,1.2);
+const dubai = new Model('Dubai',11,38,3,7);
+const paris = new Model('Paris',20,38,2.3);
+const lima = new Model('Lima',2,16,4.6);
+
+openHours();
+staffHours();
+
+seattle.render();
+tokyo.render();
+dubai.render();
+paris.render();
+lima.render();
+
+hourlyTotals();
+staffTotals();
+
+
+function Model(location,minCust,maxCust,avgSale){
+  this.storeLocation = location;
+  this.minCust = minCust;
+  this.maxCust = maxCust;
+  this.avgSale = avgSale;
+  this.hourlySales = this.salesModel();
+  this.totalDailySales = this.totalDailySales();
+  this.hourlyStaff = this.hourlyStaffing();
+}
+
+//Sticky nav - https://www.w3schools.com/howto/howto_js_sticky_header.asp
 window.onscroll = function() {stickyNav();};
 const nav = document.getElementById('sticky-nav');
 const sticky = nav.offsetTop;
@@ -211,7 +223,7 @@ function stickyNav() {
   }
 }
 
-//https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_slideshow_auto
+//Slideshow - https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_slideshow_auto
 
 let slideIndex = 0;
 showSlides();
