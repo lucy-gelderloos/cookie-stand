@@ -100,6 +100,10 @@ header p {
     padding-top:165px;
 }
 
+#sticky-nav {
+    z-index: 10; /*otherwise the slideshow images appear on top of the sticky nav */
+}
+
 main {
     max-width: 960px;
     margin:30px auto;
@@ -134,6 +138,37 @@ p {
     object-fit: contain;
     display:block;
     margin:auto;
+}
+
+#cookie-kits {
+    padding:10px;
+    color:#F7EEE0;
+    background-color:#241C1C;
+    width:65%;
+}
+
+/* #cookie-kits img {
+    object-fit: contain;
+    width:50px
+} */
+
+.family {
+    width:60%;
+    display:block;
+}
+
+.kit {
+    width:60%;
+    max-height:150px;
+    display: flex;
+    justify-content: space-between;
+    margin:10px 0;
+}
+
+.kit img {
+    object-fit:contain;
+    width:45%;
+    /* margin:10px; */
 }
 
 .fade {
@@ -178,3 +213,4 @@ td {
 }
 
 /* https://medium.com/@iamryanyu/how-to-align-last-flex-item-to-right-73512e4e5912 */
+/* https://www.digitalocean.com/community/tutorials/css-cropping-images-object-fit */
