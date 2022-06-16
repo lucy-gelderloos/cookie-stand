@@ -196,20 +196,17 @@ function staffTotals(){
   }
 }
 
-// When the user scrolls the page, execute myFunction
+//https://www.w3schools.com/howto/howto_js_sticky_header.asp
 window.onscroll = function() {stickyNav();};
-
-// Get the header
-const header = document.getElementById('sticky-nav');
-
-// Get the offset position of the navbar
-const sticky = header.offsetTop;
-
-// Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
+const nav = document.getElementById('sticky-nav');
+const sticky = nav.offsetTop;
+const content = document.getElementById('content');
 function stickyNav() {
   if (window.pageYOffset > sticky) {
-    header.classList.add('sticky');
+    nav.classList.add('sticky');
+    content.classList.add('sticky-padding');
   } else {
-    header.classList.remove('sticky');
+    nav.classList.remove('sticky');
+    content.classList.remove('sticky-padding');
   }
 }
