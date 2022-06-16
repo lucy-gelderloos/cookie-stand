@@ -17,10 +17,6 @@ body {
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
-.data {
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
-}
-
 header {
     color:#241C1C;
     background-color:#AF5441;
@@ -194,6 +190,16 @@ p {
     justify-content: space-between;
     width:960px;
     margin: 0 auto 30px auto;
+}
+
+
+.data {
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-size:0.8em;
+}
+
+.data td, th {
+    padding:2px;
 }
 
 .model-div {
