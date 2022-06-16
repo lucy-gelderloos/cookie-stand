@@ -179,11 +179,71 @@ function staffTotals(){
   }
 }
 
-const seattle = new Model('Seattle',23,65,6.3);
-const tokyo = new Model('Tokyo',3,24,1.2);
-const dubai = new Model('Dubai',11,38,3,7);
-const paris = new Model('Paris',20,38,2.3);
-const lima = new Model('Lima',2,16,4.6);
+//form start
+
+//what I want to do is create a new array called 'newLocation'Array (where newLocation is the name of the new location), then put the numbers in that array. Also add the new location to the Locations array, then loop through that array to render. (But that would require reloading the page? Because if I do the render on click then I'll get a bunch of duplication.) Also want the locations array for math, I think.
+
+//what needs to happen on click:
+// - new row created with location name and est. hourly sales/staffing
+// - row inserted above total row
+// - hourly sales/staffing from new store added to existing totals
+
+
+let formElement = document.getElementById('add-location');
+// let newStore;
+
+formElement.addEventListener('submit', function(event) {
+  event.preventDefault(); // prevent the refresh on submit
+
+  let newStoreLocation = event.target.locationName.value;
+  console.log(newStoreLocation);
+  let newMinCust = Number(event.target.minCust.value);
+  console.log(newMinCust);
+  let newMaxCust = Number(event.target.maxCust.value);
+  console.log(newMaxCust);
+  let newAvgSale = Number(event.target.avgSale.value);
+  console.log(newAvgSale);
+
+  // newStoreArray.push(newStoreLocation,newMinCust,newMaxCust,newAvgSale);
+
+  // let newStoreArray = [newStoreLocation, newMinCust, newMaxCust, newAvgSale];
+  locationsArray.push(newStoreLocation.toLowerCase()); //this works, in case I ever decide what to do with it
+  let newStore = new Model(newStoreLocation,newMinCust,newMaxCust,newAvgSale);
+  console.log(newStore.hourlySales);
+  newStore.render();
+});
+
+
+
+
+// function addLocation(form){
+//   let newLocation = form.locationName.value;
+//   console.log(newLocation);
+// }
+
+// addLocation();
+
+
+
+
+//form end
+
+
+const seattleArray = ['Seattle',23,65,6.3];
+const tokyoArray = ['Tokyo',3,24,1.2];
+const dubaiArray = ['Dubai',11,38,3,7];
+const parisArray = ['Paris',20,38,2.3];
+const limaArray = ['Lima',2,16,4.6];
+
+const locationsArray = ['seattle','tokyo','dubai','paris','lima'];
+
+const seattle = new Model(...seattleArray);
+const tokyo = new Model(...tokyoArray);
+const dubai = new Model(...dubaiArray);
+const paris = new Model(...parisArray);
+const lima = new Model(...limaArray);
+
+//Spread syntax (...) - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
 
 openHours();
 staffHours();
@@ -193,10 +253,10 @@ tokyo.render();
 dubai.render();
 paris.render();
 lima.render();
+// portland.render();
 
 hourlyTotals();
 staffTotals();
-
 
 function Model(location,minCust,maxCust,avgSale){
   this.storeLocation = location;
@@ -241,3 +301,16 @@ function showSlides() {
   slides[slideIndex-1].style.display = 'block';
   setTimeout(showSlides, 2000); // Change image every 2 seconds
 }
+
+
+// function addNewRow() {
+//   const table = document.getElementById('modelTable');
+
+//   let text = [storeLocation,minCust,maxCust,avgSale];
+//   let row = table.insertRow(table.rows.length-1);
+
+//   for (let i = 0; i < table.rows[0].cells.length; i++) {
+//     row.insertCell(-1).textContent = text[i] || '';
+//   }
+// }
+
