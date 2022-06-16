@@ -145,15 +145,16 @@ p {
     color:#F7EEE0;
     background-color:#241C1C;
     width:65%;
+    display: flex;
 }
 
 .family {
-    width:60%;
+    width:100%;
     display:block;
 }
 
 .kit {
-    width:60%;
+    /* width:60%; */
     max-height:150px;
     display: flex;
     justify-content: space-between;
@@ -162,8 +163,11 @@ p {
 
 .kit img {
     object-fit:contain;
-    width:45%;
-    /* margin:10px; */
+    width:48%;
+}
+
+.description {
+    padding:0 15px;
 }
 
 .fade {
