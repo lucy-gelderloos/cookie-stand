@@ -1,6 +1,5 @@
 'use strict';
 
-
 function openHours() {
   let hoursHeader = ['Location'];
   let hours = [];
@@ -17,7 +16,7 @@ function openHours() {
     hoursHeader.push(hours);
   }
   hoursHeader.push('Daily Total Sales');
-  console.log(hoursHeader);
+  // console.log(hoursHeader);
 
   const modelTable = document.getElementById('modelTable');
   const headRow = document.createElement('tr');
@@ -30,6 +29,39 @@ function openHours() {
     headRow.appendChild(colHead);
   }
 }
+
+openHours();
+
+function staffHours() {
+  let staffHoursHeader = ['Location'];
+  let staffHours = [];
+  for (let i = 6; i < 20; i++){
+    if(i < 12){
+      staffHours = (`${i}:00 am`);
+    }
+    else if(i === 12){
+      staffHours = (`${i}:00 pm`);
+    }
+    else{
+      staffHours = (`${(i-12)}:00 pm`);
+    }
+    staffHoursHeader.push(staffHours);
+  }
+
+  // console.log(staffHoursHeader);
+
+  const staffTable = document.getElementById('staffTable');
+  const staffHeadRow = document.createElement('tr');
+  staffTable.appendChild(staffHeadRow);
+
+  for(let i = 0; i < staffHoursHeader.length; i++){
+    const staffColHead = document.createElement('th');
+    staffColHead.appendChild(document.createTextNode(staffHoursHeader[i]));
+    staffHeadRow.appendChild(staffColHead);
+  }
+}
+
+staffHours();
 
 Model.prototype.salesModel = function(){
   let hourlySales = [];
@@ -106,38 +138,25 @@ Model.prototype.hourlyStaffing = function(){
   return(hourlyStaff);
 };
 
-function staffHours() {
-  let staffHoursHeader = ['Location'];
-  let staffHours = [];
-  for (let i = 6; i < 20; i++){
-    if(i < 12){
-      staffHours = (`${i}:00 am`);
-    }
-    else if(i === 12){
-      staffHours = (`${i}:00 pm`);
-    }
-    else{
-      staffHours = (`${(i-12)}:00 pm`);
-    }
-    staffHoursHeader.push(staffHours);
-  }
+const seattleArray = ['Seattle',23,65,6.3];
+const tokyoArray = ['Tokyo',3,24,1.2];
+const dubaiArray = ['Dubai',11,38,3,7];
+const parisArray = ['Paris',20,38,2.3];
+const limaArray = ['Lima',2,16,4.6];
 
-  console.log(staffHoursHeader);
+const locationsArray = ['seattle','tokyo','dubai','paris','lima'];
 
-  const staffTable = document.getElementById('staffTable');
-  const staffHeadRow = document.createElement('tr');
-  staffTable.appendChild(staffHeadRow);
+const seattle = new Model(...seattleArray);
+const tokyo = new Model(...tokyoArray);
+const dubai = new Model(...dubaiArray);
+const paris = new Model(...parisArray);
+const lima = new Model(...limaArray);
 
-  for(let i = 0; i < staffHoursHeader.length; i++){
-    const staffColHead = document.createElement('th');
-    staffColHead.appendChild(document.createTextNode(staffHoursHeader[i]));
-    staffHeadRow.appendChild(staffColHead);
-  }
-}
+let hourlyTotalsArray = [];
 
 function hourlyTotals(){
 
-  let hourlyTotalsArray = [];
+  // let hourlyTotalsArray = [];
   hourlyTotalsArray.push('Total Sales');
   for(let i = 0; i < 14; i++){
     let hourTotal = (seattle.hourlySales[i] + tokyo.hourlySales[i] + dubai.hourlySales[i] + paris.hourlySales[i] + lima.hourlySales[i]);
@@ -159,7 +178,12 @@ function hourlyTotals(){
     hourlyTotalCell.appendChild(document.createTextNode(hourlyTotalsArray[i]));
     footerRow.appendChild(hourlyTotalCell);
   }
+  return(hourlyTotalsArray);
 }
+
+hourlyTotals();
+
+// console.log(hourlyTotalsArray);
 
 function staffTotals(){
   let staffTotalsArray = [];
@@ -168,8 +192,6 @@ function staffTotals(){
     let staffTotal = (seattle.hourlyStaff[i] + tokyo.hourlyStaff[i] + dubai.hourlyStaff[i] + paris.hourlyStaff[i] + lima.hourlyStaff[i]);
     staffTotalsArray.push(staffTotal);
   }
-
-  // console.log (staffTotalsArray);
 
   const staffTable = document.getElementById('staffTable');
   const staffFooterRow = document.createElement('tr');
@@ -183,13 +205,13 @@ function staffTotals(){
   }
 }
 
+staffTotals();
+
 //form start
 
-//what I want to do is create a new array called 'newLocation'Array (where newLocation is the name of the new location), then put the numbers in that array. Also add the new location to the Locations array, then loop through that array to render. (But that would require reloading the page? Because if I do the render on click then I'll get a bunch of duplication.) Also want the locations array for math, I think.
-
 //what needs to happen on click:
-// - new row created with location name and est. hourly sales/staffing
-// - row inserted above total row
+// x new row created with location name and est. hourly sales/staffing
+// x row inserted above total row
 // - hourly sales/staffing from new store added to existing totals
 
 
@@ -200,61 +222,34 @@ formElement.addEventListener('submit', function(event) {
   event.preventDefault(); // prevent the refresh on submit
 
   let newStoreLocation = event.target.locationName.value;
-  console.log(newStoreLocation);
   let newMinCust = Number(event.target.minCust.value);
   // If these aren't converted to numbers, the math is bad
-  console.log(newMinCust);
   let newMaxCust = Number(event.target.maxCust.value);
-  console.log(newMaxCust);
   let newAvgSale = Number(event.target.avgSale.value);
-  console.log(newAvgSale);
 
   // newStoreArray.push(newStoreLocation,newMinCust,newMaxCust,newAvgSale);
 
   // let newStoreArray = [newStoreLocation, newMinCust, newMaxCust, newAvgSale];
   locationsArray.push(newStoreLocation.toLowerCase()); //this works, in case I ever decide what to do with it
   let newStore = new Model(newStoreLocation,newMinCust,newMaxCust,newAvgSale);
-  console.log(newStore.hourlySales);
+  // console.log(newStore.hourlySales);
   newStore.render();
+
+  let oldTotalSales = document.getElementById('salesFooter');
+  oldTotalSales.remove;
+  // let hourlyTotalsArray = hourlyTotalsArray;
+  // for(let i = 0; i < 14; i++){
+  //   let hourTotal = (hourlyTotalsArray[i] + newStoreLocation.hourlySales[i]);
+  //   hourlyTotalsArray.push(hourTotal);
+  // }
+
+  console.log(hourlyTotalsArray);
+
 });
-
-
-
-
-// function addLocation(form){
-//   let newLocation = form.locationName.value;
-//   console.log(newLocation);
-// }
-
-// addLocation();
-
-
-
 
 //form end
 
-
-const seattleArray = ['Seattle',23,65,6.3];
-const tokyoArray = ['Tokyo',3,24,1.2];
-const dubaiArray = ['Dubai',11,38,3,7];
-const parisArray = ['Paris',20,38,2.3];
-const limaArray = ['Lima',2,16,4.6];
-
-const locationsArray = ['seattle','tokyo','dubai','paris','lima'];
-
-const seattle = new Model(...seattleArray);
-const tokyo = new Model(...tokyoArray);
-const dubai = new Model(...dubaiArray);
-const paris = new Model(...parisArray);
-const lima = new Model(...limaArray);
-
 //Spread syntax (...) - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
-
-openHours();
-staffHours();
-
-hourlyTotals();
-staffTotals();
 
 seattle.render();
 tokyo.render();
