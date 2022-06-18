@@ -2,38 +2,6 @@
 
 const salesCurve = [0.5, 0.75, 1.0, 0.6, 0.8, 1.0, 0.7, 0.4, 0.6, 0.9, 0.7, 0.5, 0.3, 0.4];
 const hoursOpenArray = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
-let hoursHeaderArray = [];
-let totalHourlySalesArray = [];
-
-
-// I want to do this to calculate the hours each store is going to be open, but given that it's always the same, maybe do it the easy way for now and come back to this later
-// function hoursOpen(){
-//   const openingHour = 6;
-//   const closingHour = 20;
-//   let hoursOpenArray = [];
-//   for (let i = openingHour; i < closingHour; i++){
-//     hoursOpenArray.push(i);
-//   }
-// }
-
-function hoursFormatted(array) {
-  let hoursHeaderArray = ['Location'];
-  let hours = [];
-  for (let i = array[0]; i <= array[array.length - 1]; i++){
-    if(i < 12){
-      hours = (`${i}:00 am`);
-    }
-    else if(i === 12){
-      hours = (`${i}:00 pm`);
-    }
-    else{
-      hours = (`${(i-12)}:00 pm`);
-    }
-    hoursHeaderArray.push(hours);
-  }
-  hoursHeaderArray.push('Daily Total Sales');
-  return(hoursHeaderArray);
-}
 
 function salesHeaderRender() {
   let hoursHeaderArray = ['Location'];
@@ -99,47 +67,52 @@ function footerRowRender(array) {
   });
 }
 
-function tdRender(array) {
-  //this will put each element of an array into a row of <td> cells
-  const tableRow = document.createElement('tr');
-  array.forEach((array) => {
-    let tableCell = document.createElement('td');
-    tableCell.appendChild(document.createTextNode(array));
-    tableRow.appendChild(tableCell);
-  });
-}
+Model.prototype.hourlyEstimate = function() {
 
-Model.prototype.hourlySalesEstimate = function() {
+  this.hourlySalesArray.push(this.storeLocation);
+  this.hourlyStaffArray.push(this.storeLocation);
+
   for(let i = 0; i < salesCurve.length; i++) {
     let randCust = ((Math.round(Math.random() * (this.maxCust - this.minCust))) + this.minCust);
     let randSale = (Math.round((randCust * this.avgSale) * (salesCurve[i])));
+
     this.hourlySalesArray.push(randSale);
     this.totalSales += randSale;
-  }
-};
 
-Model.prototype.hourlyStaffEstimate = function() {
-  for(let i = 0; i < this.hourlySalesArray; i++){
-    let hourlyStaff = Math.ceil(this.hourlySalesArray[i] / 20);
+    let hourlyStaff = Math.ceil(randSale/20);
     if (hourlyStaff < 2) {
       this.hourlyStaffArray.push(2);
     }
-    else (this.hourlyStaffArray.push(hourlyStaff));
+    else {
+      this.hourlyStaffArray.push(hourlyStaff);
+    }
   }
+  this.hourlySalesArray.push(this.totalSales);
 };
 
 Model.prototype.addRows = function() {
+  const salesTable = document.getElementById('salesTable');
+  let salesRow = document.createElement('tr');
+  salesRow.classList.add('salesRow');
+  salesTable.appendChild(salesRow);
 
+  for(let i = 0; i < this.hourlySalesArray.length; i++){
+    let salesCell = document.createElement('td');
+    salesCell.appendChild(document.createTextNode(this.hourlySalesArray[i]));
+    salesRow.appendChild(salesCell);
+  }
 
+  const staffTable = document.getElementById('staffTable');
+  let staffRow = document.createElement('tr');
+  staffRow.classList.add('staffRow');
+  staffTable.appendChild(staffRow);
+
+  for(let i = 0; i < this.hourlyStaffArray.length; i++){
+    let staffCell = document.createElement('td');
+    staffCell.appendChild(document.createTextNode(this.hourlyStaffArray[i]));
+    staffRow.appendChild(staffCell);
+  }
 };
-
-
-Model.prototype.addressRender = function() {
-// this will format the address - I'm thinking an array where it creates a <p>, then inserts a <br /> between each address line
-};
-
-
-
 
 function Model(location,minCust,maxCust,avgSale){
   this.storeLocation = location;
@@ -147,10 +120,9 @@ function Model(location,minCust,maxCust,avgSale){
   this.maxCust = maxCust;
   this.avgSale = avgSale;
   this.totalSales = 0;
-  this.estHourlySales = [];
-  this.estHourlyStaff = [];
+  this.hourlySalesArray = [];
+  this.hourlyStaffArray = [];
 }
-
 
 /*
 
@@ -180,19 +152,24 @@ Each TABLE needs:
 salesHeaderRender();
 staffHeaderRender();
 
-const seattleArray = ['Seattle',23,65,6.3];
-const tokyoArray = ['Tokyo',3,24,1.2];
-const dubaiArray = ['Dubai',11,38,3,7];
-const parisArray = ['Paris',20,38,2.3];
-const limaArray = ['Lima',2,16,4.6];
+const seattle = new Model('Seattle',23,65,6.3);
+const tokyo = new Model('Tokyo',3,24,1.2);
+const dubai = new Model('Dubai',11,38,3,7);
+const paris = new Model('Paris',20,38,2.3);
+const lima = new Model('Lima',2,16,4.6);
 
-const locationsArray = ['seattle','tokyo','dubai','paris','lima'];
+seattle.hourlyEstimate();
+tokyo.hourlyEstimate();
+dubai.hourlyEstimate();
+paris.hourlyEstimate();
+lima.hourlyEstimate();
 
-const seattle = new Model(...seattleArray);
-const tokyo = new Model(...tokyoArray);
-const dubai = new Model(...dubaiArray);
-const paris = new Model(...parisArray);
-const lima = new Model(...limaArray);
+seattle.addRows();
+tokyo.addRows();
+dubai.addRows();
+paris.addRows();
+lima.addRows();
+
 
 //Sticky nav - https://www.w3schools.com/howto/howto_js_sticky_header.asp
 window.onscroll = function() {stickyNav();};
