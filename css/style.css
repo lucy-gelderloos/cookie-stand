@@ -12,14 +12,14 @@ cream: #F7EEE0
 @import "reset.css";
 
 body {
-    color: #293030;
+    color: #241C1C;
     background-color: #F7EEE0;
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 header {
-    color:#241C1C;
-    background-color:#AF5441;
+    color:black;
+    background-color:#A04E2E;
     margin:auto;
 }
 
@@ -60,7 +60,7 @@ header div {
     margin:auto;
     padding:20px 0 0 0;
     display:block;
-    background-color:#AF5441;
+    background-color:#A04E2E;
 }
 
 header img {
@@ -76,6 +76,7 @@ h1 {
 }
 
 h2 {
+    font-family:'Bitter',serif;
     font: size 1.5em;
     font-weight:bold;
     line-height: 2em;
@@ -196,6 +197,11 @@ p {
 .data {
     font-family:Verdana, Geneva, Tahoma, sans-serif;
     font-size:0.8em;
+    color:black;
+}
+
+.data tr:hover{
+    background-color: white;
 }
 
 .data td, th {
