@@ -13,8 +13,8 @@
         </header>
         <main>
             <h2>Total Sales</h2>
-            <div id="model">
-                <table id="modelTable" class="data">
+            <div id="sales">
+                <table id="salesTable" class="data">
 
                 </table>
             </div>
@@ -26,7 +26,9 @@
             </div>
             <div id="add-location">
                 <form action="" method="post">
-                    <fieldset><ul>
+                  <h2 class="center">Add another location</h2>
+                  <fieldset>
+                    <ul>
                      <li>
                        <label for="locationName">Location:</label>
                        <input type="text" id="locationName" name="locationName">
@@ -43,12 +45,12 @@
                         <label for="avgSale">Average cookies per sale:</label>
                         <input type="number" id="avgSale" name="average_cookies_per_sale">
                       </li>
-                      <li class="button">
-                        <button type="submit">Add</button>
-                      </li>
                     </ul>
-                    </fieldset>
-                   </form>
+                  </fieldset>
+                  <div class="button">      
+                    <button type="submit">Add New Store</button>
+                  </div>
+                </form>
             </div>
         </main>
         <footer>

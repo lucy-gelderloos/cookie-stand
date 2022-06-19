@@ -219,5 +219,73 @@ td {
     text-align:left;
 }
 
+.center {
+    text-align:center;
+}
+
 /* https://medium.com/@iamryanyu/how-to-align-last-flex-item-to-right-73512e4e5912 */
 /* https://www.digitalocean.com/community/tutorials/css-cropping-images-object-fit */
+
+form {
+    /* Center the form on the page */
+    margin: 30px 0;
+    width: 450px;
+    padding: 1em;
+    border: 1px solid #241C1C;
+    border-radius: 1em;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  form li + li {
+    margin-top: 1em;
+  }
+  
+  label {
+    display: inline-block;
+    width: 225px;
+    text-align: right;
+  }
+  
+  input,
+  textarea {
+    font: 1em sans-serif;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    box-sizing: border-box;
+    border: 1px solid #5e5037;
+  }
+  
+  input:focus,
+  textarea:focus {
+    /* Additional highlight for focused elements */
+    border-color: #241C1C;
+  }
+  
+  textarea {
+    vertical-align: top;
+    height: 5em;
+  }
+  
+  .button {
+    display: flex;
+    justify-content: center;
+  }
+  
+  button {
+    margin:10px auto;
+    background-color:#AF5441;
+    border:none;
+    color:#F7EEE0;
+    padding:10px;
+  }
+
+  button:hover{
+    background-color: #A04E2E;
+  }
+
+
+
