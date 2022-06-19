@@ -180,31 +180,6 @@ function Model(location,minCust,maxCust,avgSale){
   this.hourlyStaffArray = [];
 }
 
-/*
-
-Each store has:
- - city/location (add address, contact details)
- - minimum estimated customers/hour
- - maxiumum estimated customers/hour
- - average cookies/sale
- - opening time (same for all stores)
- - closing time (same for all stores)
- x sales curve (same for all stores)
-
-Each store needs:
- - how many hours is it open? (same for all stores)
- - how many cookies is it estimated to sell per hour?
- - how many cookies is it estimated to sell per day?
- - how many staff does it need per hour? (assuming each staff member can sell 20 cookies/hour and each store needs a minimum of two staff per hour)
- - contact info on the
-
-Each TABLE needs:
- - header row of hours (ideally with the flexibility to accommodate different hours, but not required)
- - footer row of total sales/staff (including grand total for sales table) that updates when more stores are added
- - a row with the data from each store, including stores added by the form
-
-*/
-
 hoursFormatted(hoursOpenArray);
 salesHeaderRender(hoursFormattedArray);
 staffHeaderRender(hoursFormattedArray);
@@ -227,12 +202,41 @@ dubai.addRows();
 paris.addRows();
 lima.addRows();
 
-// console.log(lima.hourlySalesArray);
 salesTotals();
 salesFooterRender(salesTotalsArray);
 staffTotals();
 staffFooterRender(staffTotalsArray);
 
+const formElement = document.getElementById('add-location');
+
+formElement.addEventListener('submit', function(event) {
+  event.preventDefault(); // prevent the refresh on submit
+
+  let newStoreLocation = event.target.locationName.value;
+  let newMinCust = Number(event.target.minCust.value);
+  // If these aren't converted to numbers, the math is bad
+  let newMaxCust = Number(event.target.maxCust.value);
+  let newAvgSale = Number(event.target.avgSale.value);
+
+  let newStore = new Model(newStoreLocation,newMinCust,newMaxCust,newAvgSale);
+
+  newStore.hourlyEstimate();
+  newStore.addRows();
+
+  for (let i = 0; i < newStore.hourlySalesArray.length; i++) {
+    salesTotalsArray[i] += newStore.hourlySalesArray[i];
+  }
+
+  for (let i = 0; i < newStore.hourlyStaffArray.length; i++) {
+    staffTotalsArray[i] += newStore.hourlyStaffArray[i];
+  }
+
+  document.getElementById('salesFooterRow').remove();
+  document.getElementById('staffFooterRow').remove();
+
+  salesFooterRender(salesTotalsArray);
+  staffFooterRender(staffTotalsArray);
+});
 
 //Sticky nav - https://www.w3schools.com/howto/howto_js_sticky_header.asp
 window.onscroll = function() {stickyNav();};
