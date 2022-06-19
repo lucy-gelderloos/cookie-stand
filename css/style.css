@@ -9,28 +9,197 @@ beige: #DBB671
 cream: #F7EEE0
 */
 
+@import "reset.css";
+
 body {
     color: #293030;
     background-color: #F7EEE0;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
-.accent-gray {
+header {
+    color:#241C1C;
+    background-color:#AF5441;
+    margin:auto;
+}
+
+nav {
+    height:2.5em;
+    align-items: center;
+    width:960px;
+    margin:auto;
+}
+
+nav ul {
+    display:flex;
+}
+
+nav ul li {
+    padding: 10px;
+}
+
+nav ul li:hover {
+    background-color: #586666;
+}
+
+nav ul li:last-child {
+    margin-left:auto;
+}
+
+a:link, a:visited {
+    color:#F7EEE0;
+    text-decoration: none;
+}
+
+nav a:hover {
+    color:#F7EEE0;
+}
+
+header div {
+    width: 100%;
+    margin:auto;
+    padding:20px 0 0 0;
+    display:block;
+    background-color:#AF5441;
+}
+
+header img {
+    margin:auto;
+    display:block;
+    padding:30px;
+}
+
+h1 {
+    font-family:'Diplomata',serif;
+    font-size:36px;
+    text-align: center;
+}
+
+h2 {
+    font: size 1.5em;
+    font-weight:bold;
+    line-height: 2em;
+}
+
+header p {
+    text-align:center;
+    font-size: 1.2em;
+    margin:15px;
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+  }
+
+.sticky-padding {
+    padding-top:165px;
+}
+
+#sticky-nav {
+    z-index: 10; /*otherwise the slideshow images appear on top of the sticky nav */
+}
+
+main {
+    max-width: 960px;
+    margin:30px auto;
+}
+
+.gray-border {
+    border:5px solid #293030; 
+}
+
+p {
+    line-height:1.5em;
+}
+
+#about img {
+    float:right;
+    margin:3px;
+}
+
+#spotlight {
+    display:flex;
+}
+
+#shop {
     color: #F7EEE0;
     background-color: #293030;
+    padding:10px;
 }
 
-.accent-brown {
-    color: #F7EEE0;
-    background-color: #241C1C;
+.mySlides img {
+    width:250px;
+    height:250px;
+    object-fit: contain;
+    display:block;
+    margin:auto;
 }
 
-a:link {
-    color: #A04E2E;
+#cookie-kits {
+    padding:10px;
+    color:#F7EEE0;
+    background-color:#241C1C;
+    width:65%;
+    display: flex;
 }
 
-a:hover {
-    color: #AF5441;
+.family {
+    width:100%;
+    display:block;
+}
+
+.kit {
+    /* width:60%; */
+    max-height:150px;
+    display: flex;
+    justify-content: space-between;
+    margin:10px 0;
+}
+
+.kit img {
+    object-fit:contain;
+    width:48%;
+}
+
+.description {
+    padding:0 15px;
+}
+
+.fade {
+    animation-name: fade;
+    animation-duration: 1.5s;
+  }
+  
+  @keyframes fade {
+    from {opacity: .4} 
+    to {opacity: 1}
+  }
+
+.locations :first-child {
+    font-weight:bold;
+}
+
+.locations {
+    text-align:center;
+    font-size:0.8em;
+}
+
+.locations-list {
+    display:flex;
+    justify-content: space-between;
+    width:960px;
+    margin: 0 auto 30px auto;
+}
+
+
+.data {
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-size:0.8em;
+}
+
+.data td, th {
+    padding:2px;
 }
 
 .model-div {
@@ -49,3 +218,6 @@ td {
 .left {
     text-align:left;
 }
+
+/* https://medium.com/@iamryanyu/how-to-align-last-flex-item-to-right-73512e4e5912 */
+/* https://www.digitalocean.com/community/tutorials/css-cropping-images-object-fit */
