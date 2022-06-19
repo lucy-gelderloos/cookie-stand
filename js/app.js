@@ -2,11 +2,13 @@
 
 const salesCurve = [0.5, 0.75, 1.0, 0.6, 0.8, 1.0, 0.7, 0.4, 0.6, 0.9, 0.7, 0.5, 0.3, 0.4];
 const hoursOpenArray = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+const hoursFormattedArray = [];
+const salesTotalsArray = [];
+const staffTotalsArray = [];
 
-function salesHeaderRender() {
-  let hoursHeaderArray = ['Location'];
-  let hours = [];
-  for (let i = hoursOpenArray[0]; i <= hoursOpenArray[hoursOpenArray.length - 1]; i++){
+function hoursFormatted(array) {
+  let hours;
+  for (let i = array[0]; i <= array[array.length - 1]; i++){
     if(i < 12){
       hours = (`${i}:00 am`);
     }
@@ -16,61 +18,105 @@ function salesHeaderRender() {
     else{
       hours = (`${(i-12)}:00 pm`);
     }
-    hoursHeaderArray.push(hours);
+    hoursFormattedArray.push(hours);
   }
-  hoursHeaderArray.push('Daily Total Sales');
+}
+
+function salesHeaderRender(array) {
   const salesTable = document.getElementById('salesTable');
   const headerRow = document.createElement('tr');
   headerRow.classList.add = ('headerRow');
   salesTable.appendChild(headerRow);
-  for(let i = 0; i < hoursHeaderArray.length; i++){
+
+  let headerRowLabel = document.createElement('th');
+  headerRowLabel.classList.add('left');
+  headerRowLabel.appendChild(document.createTextNode('Location'));
+  headerRow.appendChild(headerRowLabel);
+
+  for(let i = 0; i < array.length; i++){
     let headerCell = document.createElement('th');
-    headerCell.appendChild(document.createTextNode(hoursHeaderArray[i]));
+    headerCell.appendChild(document.createTextNode(array[i]));
     headerRow.appendChild(headerCell);
   }
+
+  let totalColumnLabel = document.createElement('th');
+  totalColumnLabel.appendChild(document.createTextNode('Total Daily Sales'));
+  headerRow.appendChild(totalColumnLabel);
 }
 
-function staffHeaderRender() {
-  let hoursHeaderArray = ['Location'];
-  let hours = [];
-  for (let i = hoursOpenArray[0]; i <= hoursOpenArray[hoursOpenArray.length - 1]; i++){
-    if(i < 12){
-      hours = (`${i}:00 am`);
-    }
-    else if(i === 12){
-      hours = (`${i}:00 pm`);
-    }
-    else{
-      hours = (`${(i-12)}:00 pm`);
-    }
-    hoursHeaderArray.push(hours);
-  }
+function staffHeaderRender(array) {
+
   const staffTable = document.getElementById('staffTable');
   const headerRow = document.createElement('tr');
   headerRow.classList.add = ('headerRow');
   staffTable.appendChild(headerRow);
-  for(let i = 0; i < hoursHeaderArray.length; i++){
+
+  let headerRowLabel = document.createElement('th');
+  headerRowLabel.classList.add('left');
+  headerRowLabel.appendChild(document.createTextNode('Location'));
+  headerRow.appendChild(headerRowLabel);
+
+  for(let i = 0; i < array.length; i++){
     let headerCell = document.createElement('th');
-    headerCell.appendChild(document.createTextNode(hoursHeaderArray[i]));
+    headerCell.appendChild(document.createTextNode(array[i]));
     headerRow.appendChild(headerCell);
   }
 }
 
-function footerRowRender(array) {
-  //this will put each element of an array into a row of <th> cells with class 'footerRow'
+function salesTotals() {
+  let grandTotal = 0;
+  for (let i = 0; i < hoursOpenArray.length; i++){
+    let hourlyTotalSales = (seattle.hourlySalesArray[i] + tokyo.hourlySalesArray[i] + dubai.hourlySalesArray[i] + paris.hourlySalesArray[i] + lima.hourlySalesArray[i]);
+    salesTotalsArray.push(hourlyTotalSales);
+    grandTotal += hourlyTotalSales;
+  }
+  salesTotalsArray.push(grandTotal);
+}
+
+function staffTotals() {
+  for (let i = 0; i < hoursOpenArray.length; i++){
+    let hourlyTotalStaff = seattle.hourlyStaffArray[i] + tokyo.hourlyStaffArray[i] + dubai.hourlyStaffArray[i] + paris.hourlyStaffArray[i] + lima.hourlyStaffArray[i];
+    staffTotalsArray.push(hourlyTotalStaff);
+  }
+}
+
+function salesFooterRender(array) {
+  const salesTable = document.getElementById('salesTable');
   const footerRow = document.createElement('tr');
-  footerRow.classList.add = ('footerRow');
-  array.forEach((array) => {
-    let headerCell = document.createElement('th');
-    headerCell.appendChild(document.createTextNode(array));
-    footerRow.appendChild(headerCell);
-  });
+  footerRow.id = ('salesFooterRow');
+  salesTable.appendChild(footerRow);
+
+  let footerRowLabel = document.createElement('th');
+  footerRowLabel.classList.add('left');
+  footerRowLabel.appendChild(document.createTextNode('Total Sales'));
+  footerRow.appendChild(footerRowLabel);
+
+  for(let i = 0; i < array.length; i++){
+    let footerCell = document.createElement('th');
+    footerCell.appendChild(document.createTextNode(array[i]));
+    footerRow.appendChild(footerCell);
+  }
+}
+
+function staffFooterRender(array) {
+  const staffTable = document.getElementById('staffTable');
+  const footerRow = document.createElement('tr');
+  footerRow.id = ('staffFooterRow');
+  staffTable.appendChild(footerRow);
+
+  let footerRowLabel = document.createElement('th');
+  footerRowLabel.classList.add('left');
+  footerRowLabel.appendChild(document.createTextNode('Total Staff'));
+  footerRow.appendChild(footerRowLabel);
+
+  for(let i = 0; i < array.length; i++){
+    let footerCell = document.createElement('th');
+    footerCell.appendChild(document.createTextNode(array[i]));
+    footerRow.appendChild(footerCell);
+  }
 }
 
 Model.prototype.hourlyEstimate = function() {
-
-  this.hourlySalesArray.push(this.storeLocation);
-  this.hourlyStaffArray.push(this.storeLocation);
 
   for(let i = 0; i < salesCurve.length; i++) {
     let randCust = ((Math.round(Math.random() * (this.maxCust - this.minCust))) + this.minCust);
@@ -96,6 +142,11 @@ Model.prototype.addRows = function() {
   salesRow.classList.add('salesRow');
   salesTable.appendChild(salesRow);
 
+  let salesRowLabel = document.createElement('td');
+  salesRowLabel.classList.add('left');
+  salesRowLabel.appendChild(document.createTextNode(this.storeLocation));
+  salesRow.appendChild(salesRowLabel);
+
   for(let i = 0; i < this.hourlySalesArray.length; i++){
     let salesCell = document.createElement('td');
     salesCell.appendChild(document.createTextNode(this.hourlySalesArray[i]));
@@ -106,6 +157,11 @@ Model.prototype.addRows = function() {
   let staffRow = document.createElement('tr');
   staffRow.classList.add('staffRow');
   staffTable.appendChild(staffRow);
+
+  let staffRowLabel = document.createElement('td');
+  staffRowLabel.classList.add('left');
+  staffRowLabel.appendChild(document.createTextNode(this.storeLocation));
+  staffRow.appendChild(staffRowLabel);
 
   for(let i = 0; i < this.hourlyStaffArray.length; i++){
     let staffCell = document.createElement('td');
@@ -149,8 +205,9 @@ Each TABLE needs:
 
 */
 
-salesHeaderRender();
-staffHeaderRender();
+hoursFormatted(hoursOpenArray);
+salesHeaderRender(hoursFormattedArray);
+staffHeaderRender(hoursFormattedArray);
 
 const seattle = new Model('Seattle',23,65,6.3);
 const tokyo = new Model('Tokyo',3,24,1.2);
@@ -169,6 +226,12 @@ tokyo.addRows();
 dubai.addRows();
 paris.addRows();
 lima.addRows();
+
+// console.log(lima.hourlySalesArray);
+salesTotals();
+salesFooterRender(salesTotalsArray);
+staffTotals();
+staffFooterRender(staffTotalsArray);
 
 
 //Sticky nav - https://www.w3schools.com/howto/howto_js_sticky_header.asp
