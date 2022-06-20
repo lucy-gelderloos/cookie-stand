@@ -46,6 +46,10 @@ nav ul li:last-child {
     margin-left:auto;
 }
 
+a {
+    font-family:'Bitter',serif;
+}
+
 a:link, a:visited {
     color:#F7EEE0;
     text-decoration: none;
@@ -287,6 +291,7 @@ form {
     border:none;
     color:#F7EEE0;
     padding:10px;
+    font-family:'Bitter',serif;
   }
 
   button:hover{
