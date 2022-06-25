@@ -98,11 +98,7 @@ header p {
   }
 
 .sticky-padding {
-    padding-top:165px;
-}
-
-#sticky-nav {
-    z-index: 10; /*otherwise the slideshow images appear on top of the sticky nav */
+    padding-top:161px;
 }
 
 main {
@@ -127,18 +123,25 @@ p {
     display:flex;
 }
 
+.gallery {
+    display:flex;
+    justify-content: space-between;
+}
+
 #shop {
     color: #F7EEE0;
     background-color: #293030;
     padding:10px;
 }
 
-.mySlides img {
-    width:250px;
-    height:250px;
-    object-fit: contain;
+#shop a {
+    margin:20px auto;
     display:block;
-    margin:auto;
+}
+
+#shop img {
+    width:45%;
+    max-height:200px;
 }
 
 #cookie-kits {
@@ -146,40 +149,34 @@ p {
     color:#F7EEE0;
     background-color:#241C1C;
     width:65%;
-    display: flex;
 }
 
-.family {
-    width:100%;
-    display:block;
+#family {
+    width:65%;
 }
 
 .kit {
-    /* width:60%; */
-    max-height:150px;
+    min-height:170px;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    margin:10px 0;
+    align-items:center;
+}
+
+div.kit {
+    width:30%;
+    float:right;
 }
 
 .kit img {
     object-fit:contain;
-    width:48%;
+    padding-bottom: 10px;
+    width:100%;
 }
 
 .description {
     padding:0 15px;
 }
-
-.fade {
-    animation-name: fade;
-    animation-duration: 1.5s;
-  }
-  
-  @keyframes fade {
-    from {opacity: .4} 
-    to {opacity: 1}
-  }
 
 .locations :first-child {
     font-weight:bold;
